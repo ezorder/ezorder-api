@@ -16,9 +16,9 @@ var bodyParser = require('body-parser');
 
 //get data from POST
 app.all('*', function(req, res, next) {
-	res.header('Access-Controll-Allow-Origin', '*');
-	res.header('Access-Controll-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-	res.header('Access-Controll-Allow-Headers', 'Content-Type');
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+	res.header('Access-Control-Allow-Headers', 'Content-Type');
 	next();
 });
 
@@ -125,7 +125,12 @@ router.route('/order/:order_id')
             if (err)
                 res.send(err);
 
-            order.order = req.body.order.order;  // update the bears info
+            order.table_number = req.body.table_number; 
+		    order.order = req.body.order;
+		    order.server = req.body.server;
+		    order.open = req.body.open;
+		    order.paid = req.body.paid;
+		    order.tip = req.body.tip;
 
             // save the bear
             order.save(function(err) {
