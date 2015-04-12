@@ -70,7 +70,6 @@ router.get('/clear', function(req, res) {
 });
 
 
-
 router.route('/order')
 	.post(function(req, res) {
 
@@ -119,25 +118,24 @@ router.route('/order/:order_id')
 
 	.put(function(req, res) {
 
-        // use our bear model to find the bear we want
         Order.findById(req.params.order_id, function(err, order) {
 
             if (err)
                 res.send(err);
 
-            order.table_number = req.body.table_number; 
+      		order.table_number = req.body.table_number; 
 		    order.order = req.body.order;
 		    order.server = req.body.server;
 		    order.open = req.body.open;
 		    order.paid = req.body.paid;
 		    order.tip = req.body.tip;
 
-            // save the bear
+            // save the obj
             order.save(function(err) {
                 if (err)
                     res.send(err);
 
-                res.json({ message: 'Order updated!' });
+                res.json({ message: order});
             });
 
        })
