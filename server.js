@@ -76,7 +76,7 @@ router.route('/order')
 
 	    var order = new Order();      
 	    order.table_number = req.body.table_number; 
-	    order.order = req.body.order;
+	    order.order = JSON.parse(req.body.order);
 	    order.server = req.body.server;
 	    order.open = req.body.open;
 	    order.paid = req.body.paid;
