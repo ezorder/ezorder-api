@@ -7,7 +7,7 @@
 var mongoose   = require('mongoose');
 mongoose.connect('mongodb://ezorder:ezorder32@proximus.modulusmongo.net:27017/Mujag5ym'); // connect to our database
 
-var Order = require('./models/order');
+var Order = require('./app/models/order');
 
 // call the packages we need
 var express    = require('express');        // call express
@@ -50,59 +50,62 @@ router.get('/', function(req, res) {
 //     res.json({ message: 'spit back all order info here' });   
 // });
 
-router.get('/order/:order_id', function(req, res) {
-    res.json({ message: 'individual order id' });   
-});
+
 
 // router.post('/order', function(req, res) {
 //     res.json({ message: 'individual order id' });   
 // });
 
 
+
+
 router.route('/order')
+	.post(function(req, res) {
 
-    // create a bear (accessed at POST http://localhost:8080/api/bears)
-    .post(function(req, res) {
-        
-        res.json({ message: 'Bear created!' });
-
-        var order = new Order();      // create a new instance of the Bear model
-        order.name = req.body.name;  // set the bears name (comes from the request)
-
-        // save the bear and check for errors
-        order.save(function(err) {
-            if (err)
-                res.send(err);
-
-            res.json({ message: 'Bear created!' });
-        });
-        
-    });
-
-// router.route('/order')
-// 	.post(function(req, res) {
-
-// 	    var order = new Order();      // create a new instance of the Bear model
-// 	    order.name = req.body.name;   // set the bears name (comes from the request)
-// 	    //order.orderNumber = "15";
+	    var order = new Order();      
+	    order.table_number = req.body.table_number; 
+	    order.order = JSON.stringify(req.body.order);
+	    order.server = req.body.server;
+	    order.open = req.body.open;
+	    order.paid = req.body.paid;
+	    order.tip = req.body.tip;
 	    
-// 	    // save the bear and check for errors
-// 	    order.save(function(err) {
-// 	        if (err)
-// 	            res.send(err);
+	    //save the bear and check for errors
+	    order.save(function(err) {
+	        if (err)
+	            res.send(err);
 
-// 	        res.json({ message: 'Order created!' });
-// 		});    
-// 	})
+	        res.json({ message: 'Order created!' });
+		})
+	})
 
-// 	.get(function(req, res) {
-//         Order.find(function(err, bears) {
-//             if (err)
-//                 res.send(err);
+	.get(function(req,res) {
+		Order.find(function(err, order) {
+			if (err)
+		        res.send(err);
 
-//             res.json(bears);
-//         });
-//  });
+	    	res.json(order);
+		})
+ });
+
+
+router.get('/order/:order_id', function(req, res) {
+
+
+	Order.findOne({_id: req.params.order_id }, function(err, order) {
+    if (err)
+        res.send(err);
+
+    res.json(order);
+	});
+});
+
+
+
+
+
+
+
 
 // more routes for our API will happen here
 
