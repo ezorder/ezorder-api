@@ -76,7 +76,7 @@ router.route('/order')
 
 	    var order = new Order();      
 	    order.table_number = req.body.table_number; 
-	    order.order = JSON.stringify(req.body.order);
+	    order.order = req.body.order;
 	    order.server = req.body.server;
 	    order.open = req.body.open;
 	    order.paid = req.body.paid;
@@ -87,7 +87,7 @@ router.route('/order')
 	        if (err)
 	            res.send(err);
 
-	        res.json({ message: 'Order created!' });
+	        res.json({ message: order });
 		})
 	})
 
@@ -96,21 +96,48 @@ router.route('/order')
 		if (err)
 		    res.send(err);
 		res.json(order);
-		})
-	});
+	})
 
 
-
-
-router.get('/order/:order_id', function(req, res) {
-
-	Order.findOne({_id: req.params.order_id }, function(err, order) {
-    if (err)
-        res.send(err);
-
-    res.json(order);
-	});
 });
+
+
+
+
+router.route('/order/:order_id')
+	
+	.get(function(req, res) {
+
+		Order.findOne({_id: req.params.order_id }, function(err, order) {
+	    if (err)
+	        res.send(err);
+
+	    res.json(order);
+		});
+	})
+
+
+	.put(function(req, res) {
+
+        // use our bear model to find the bear we want
+        Order.findById(req.params.order_id, function(err, order) {
+
+            if (err)
+                res.send(err);
+
+            order.order = req.body.order.order;  // update the bears info
+
+            // save the bear
+            order.save(function(err) {
+                if (err)
+                    res.send(err);
+
+                res.json({ message: 'Order updated!' });
+            });
+
+       })
+    });
+
 
 
 
