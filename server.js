@@ -5,7 +5,7 @@
 
 // Connect to Database
 var mongoose   = require('mongoose');
-mongoose.connect('mongodb://ezorder:ezorder32@proximus.modulusmongo.net:27017/Mujag5ym'); // connect to our database
+mongoose.connect('mongodb://ezorder:ezorder32@ds061671.mongolab.com:61671/ezorder'); // connect to our database
 
 var Order = require('./app/models/order');
 
@@ -56,6 +56,18 @@ router.get('/', function(req, res) {
 //     res.json({ message: 'individual order id' });   
 // });
 
+router.get('/clear', function(req, res) {
+	Order.find(function(err, order) {
+		if (err)
+		    res.send(err);
+
+		order.remove(function(err) {
+			
+			if (err)
+		    	res.send(err);
+		});
+    })  
+});
 
 
 
@@ -86,6 +98,8 @@ router.route('/order')
 		res.json(order);
 		})
 	});
+
+
 
 
 router.get('/order/:order_id', function(req, res) {
