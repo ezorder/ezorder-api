@@ -79,18 +79,16 @@ router.route('/order')
 		})
 	})
 
-	.get(function(req,res) {
+	.get(function(req, res) {
 		Order.find(function(err, order) {
-			if (err)
-		        res.send(err);
-
-	    	res.json(order);
+		if (err)
+		    res.send(err);
+		res.json(order);
 		})
- });
+	});
 
 
 router.get('/order/:order_id', function(req, res) {
-
 
 	Order.findOne({_id: req.params.order_id }, function(err, order) {
     if (err)
