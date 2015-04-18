@@ -5,7 +5,8 @@
 
 // Connect to Database
 var mongoose   = require('mongoose');
-mongoose.connect('mongodb://ezorder:ezorder32@ds061671.mongolab.com:61671/ezorder'); // connect to our database
+//mongoose.connect('mongodb://ezorder:ezorder32@ds061671.mongolab.com:61671/ezorder'); // connect to our database
+mongoose.connect('mongodb://ezorder:ezorder32@ds061711.mongolab.com:61711/db_ezorder'); // connect to our database
 
 var Order = require('./app/models/order');
 
