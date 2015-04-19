@@ -6,8 +6,13 @@
 // Connect to Database
 var mongoose   = require('mongoose');
 //mongoose.connect('mongodb://ezorder:ezorder32@ds061671.mongolab.com:61671/ezorder'); // connect to our database
-mongoose.connect('mongodb://ezorder:ezorder32@ds061711.mongolab.com:61711/db_ezorder'); // connect to our database
 
+var port = process.env.PORT || 5000;        // set our port
+if(port == 5000){
+  mongoose.connect('mongodb://localhost/db_ezorder');
+} else{
+  mongoose.connect('mongodb://ezorder:ezorder32@ds061711.mongolab.com:61711/db_ezorder'); // connect to our database
+}
 var Order = require('./app/models/order');
 
 // call the packages we need
@@ -28,8 +33,6 @@ app.all('*', function(req, res, next) {
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-var port = process.env.PORT || 8080;        // set our port
 
 // ROUTES FOR OUR API
 // =============================================================================
